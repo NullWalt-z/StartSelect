@@ -122,6 +122,8 @@ def admin():
     publishers = getPublishers()
     breweries = getBreweries()
     genres = getGenres()
+    days = ['Mon','Tue','Wed','Thur','Fri','Sat','Sun']
+    specials = getRemoveSpecials(1)
     
     """Renders the location page"""
     return render_template(
@@ -133,10 +135,12 @@ def admin():
         locArcades = arcades,
         allPublishers = publishers,
         allBreweries = breweries,
-        allGenres = genres
+        allGenres = genres,
+        week = days,
+        locSpecials = specials
         )
 
-@app.route('/addBeer', methods=['POST'])
+@app.route('/newBeer', methods=['POST'])
 def newBeer():
     locIN = request.form['locationIn']
     nameIN = request.form['beerNameIn']
@@ -201,14 +205,39 @@ def subArcade():
         year=datetime.now().year,
         thisArcade = oldArcade
         )
+@app.route('/newSpecial', methods=['POST'])
+def newSpecial():
+    locIN = request.form['locationIn']
+    dayIN = request.form['addSpecialDaySelect']
+    descIN = request.form['descIn']
+    addSpecial(locIN,dayIN,descIN)
+    newSpecial = [dayIN,descIN]
+    return render_template(
+        'newSpecial.html',
+        title = 'Confirm New Special',
+        year=datetime.now().year,
+        thisSpecial = newSpecial
+        )
 
+@app.route('/removeSpecial', methods=['POST'])
+def subSpecial():
+    specialID = request.form['removeSpecialSelect']
+    oldSpecial = special.query.filter(special.id == specialID).add_columns(special.day,special.dayNum).order_by(special.dayNum)
+    oldSpecial = oldSpecial[0][1]
+    removeSpecial(1,specialID)
+    return render_template(
+        'removeSpecial.html',
+        title = 'Confirm Special Removal',
+        year = datetime.now().year,
+        thisSpecial = oldSpecial
+        )
 
 
 ########################
 ### HELPER FUNCTIONS ###
 ########################
 
-def convertWeek(numIN):
+def numToDay(numIN):
     if(numIN == 1):
         return 'Mon'
     elif(numIN == 2):

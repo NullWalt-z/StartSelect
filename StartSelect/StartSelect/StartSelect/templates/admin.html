@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-md-4">
         <h2>Add Beer</h2>
-        <form action='/addBeer' method="post" name="addBeerForm">
+        <form action='/newBeer' method="post" name="addBeerForm">
             Location:<br />
             <input type="text" name="locationIn">
             <br />
@@ -100,7 +100,33 @@
         </form>
     </div>
     <div class="col-md-4">
-        SPECIAL DASHBOARD HOLDER
+        <h2>Add Special</h2>
+        <form action='/newSpecial' method="post" name="addSpecialForm">
+            Location:<br />
+            <input type="text" name="locationIn">
+            <br />
+            Day:
+            <select id="addSpecialDaySelect" name="addSpecialDaySelect">
+                {% for day in week %}
+                <option value={{day}} name="{{day}}">{{day}}</option>
+                {% endfor %}
+            </select>
+            <br />
+            Desc:<br />
+            <input type="text" name="descIn">
+            <br />
+            <input type="submit" value="Submit" name="addSpecialSubmit" />
+        </form>
+        <br /><br />
+        <h2>Remove Special</h2>
+        <form action="/removeSpecial" method="post" name="removeSpecialForm">
+            <select id="removeSpecialSelect" name="removeSpecialSelect">
+                {% for special in locSpecials %}
+                <option value={{special[0]}} name="{{special[1]}}">{{special[1]}} - {{special[2]}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Submit" name="removeArcadeSubmit" />
+        </form>
     </div>
 </div>
 

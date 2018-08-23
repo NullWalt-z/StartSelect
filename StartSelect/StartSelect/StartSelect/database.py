@@ -129,24 +129,6 @@ class special(db.Model):
     dayNum = db.Column(db.Integer)
     desc = db.Column(db.String(250))
 
-    def dayNummer(dayIN):
-        if(dayIN=='Mon'):
-            return 1
-        elif(dayIN=='Tue'):
-            return 2
-        elif(dayIN=='Wed'):
-            return 3
-        elif(dayIN=='Thur'):
-            return 4
-        elif(dayIN=='Fri'):
-            return 5
-        elif(dayIN=='Sat'):
-            return 6
-        elif(dayIN=='Sun'):
-            return 7
-        else:
-            return 10
-
     #function definitions
     def __repr__(self):
         return'<special % r>' %self.desc
@@ -282,6 +264,18 @@ def getSpecials(locID):
     #FIGURE OUT HOW TO SORT!!!!!!!!!!!!!
     return dailySpecial
 
+def getRemoveSpecials(locID):
+    locSpecials = special.query.filter(special.locationid == locID).add_columns(special.id,special.day, special.desc).order_by(special.dayNum)
+    locSpecials = processQuery(locSpecials)
+    for specials in locSpecials:
+        if(len(specials[2]) > 50):
+            specials[2]=specials[2][:50]
+            specials[2].append('...')
+    return locSpecials
+    
+
+ 
+
 def getPublishers():
     publishers = publisher.query.add_columns(publisher.id, publisher.name)
     allPublishers = []
@@ -376,7 +370,6 @@ def addSpecial(locID,specialDay,specialDesc):
     db.session.add(newSpecial)
     db.session.commit()
     return True
-
 def removeSpecial(locID,specialID):
     db.session.query(special).filter(special.locationid == locID, special.id == specialID).delete()
     db.session.commit()
@@ -505,3 +498,21 @@ def processQuery(queryIn):
                 newItem.append(query[i])
         newQuery.append(newItem)
     return newQuery
+
+def dayNummer(dayIN):
+    if(dayIN=='Mon'):
+        return 1
+    elif(dayIN=='Tue'):
+        return 2
+    elif(dayIN=='Wed'):
+        return 3
+    elif(dayIN=='Thur'):
+        return 4
+    elif(dayIN=='Fri'):
+        return 5
+    elif(dayIN=='Sat'):
+        return 6
+    elif(dayIN=='Sun'):
+        return 7
+    else:
+        return 0
