@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <div class="column" id="beerColumn">
+        <h2>Add Beer</h2>
+        <form action='/addBeer' method="post" name="addBeerForm">
+            Location:<br />
+            <input type="text" name="locationIn">
+            <br />
+            Beer name:<br />
+            <input type="text" name="beerNameIn">
+            <br />
+            Brewery name:<br />
+            <input type="text" name="breweryNameIn">
+            <br />
+            Style:<br />
+            <input type="text" name="styleIn">
+            <br />
+            Price:<br>
+            <input type="text" name="priceIn">
+            <br />
+            Draft:<br />
+            <input type="checkbox" name="draftIn" value=True>
+            <br />
+            ABV:<br />
+            <input type="text" name="abvIn">
+            <br />
+            IBU:<br />
+            <input type="text" name="ibuIn">
+            <br />
+            Featured:<br />
+            <input type="checkbox" name="featuredIn" value=True>
+            <br /><br />
+            <input type="submit" value="Submit" name="addBeerSubmit">
+        </form>
+        <br /><br />
+        <h2>Remove Beer</h2>
+        <form action="/removeBeer" method="post" name="removeBeerForm">
+            <select id="removeBeerSelect" name="removeBeerSelect">
+                {% for beer in locBeers %}
+                    <option value={{beer[0]}} name ="{{beer[2]}}">{{beer[2]}} - {{beer[1]}} - {{beer[3]}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Submit" name="removeBeerSubmit" />
+        </form>
+    </div>
+    <div class="column" id="arcadeColumn">
+        <h2>Add Arcade</h2>
+        <form action='/addArcade' method="post" name="addArcadeForm">
+            Location:<br />
+            <input type="text" name="locationIn">
+            <br />
+            Arcade:<br />
+            <input type="text" name="arcadeNameIn">
+            <br />
+            Publisher:<br />
+            <input type="text" name="publisherNameIn">
+            <br />
+            Genre:<br />
+            <input type="text" name="genreIn">
+            <br />
+            Year:<br>
+            <input type="text" name="yearIn">
+            <br />
+            Players:<br />
+            <input type="checkbox" name="playersIn" value=True>
+            <br />
+            Featured:<br />
+            <input type="checkbox" name="featuredIn" value=True>
+            <br /><br />
+            <input type="submit" value="Submit" name="addArcadeSubmit">
+        </form>
+    </div>
+</body>
+</html>

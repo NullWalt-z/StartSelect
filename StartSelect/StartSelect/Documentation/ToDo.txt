@@ -1,0 +1,10 @@
+5/17/18
+	Added 
+		skeleton queries
+		skeleton templates
+	TODO
+		finish database - relationships
+		fill out queries
+		fill out templates
+	RESEARCH
+		bootstrap - HTML templates

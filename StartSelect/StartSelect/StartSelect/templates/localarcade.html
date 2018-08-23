@@ -1,0 +1,22 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1>Start-Select {{locInfo[0]}}</h1>
+    <p class="lead">{{locInfo[1]}}</p>
+    <p><a href="http://flask.pocoo.org/" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+</div>
+<h2>Arcades</h2>
+<table>
+    {% for arcade in arcades %}
+    <tr>
+        <strong>Title: </strong>{{arcade[0]}} <br />
+        <strong>Publisher: </strong>{{arcade[1]}} <br />
+        <strong>Genre: </strong>{{arcade[2]}} <br />
+        <strong>Release Year: </strong>{{arcade[3]}} <br />
+        <strong>Players: </strong>{{arcade[4]}} <br /><br />
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

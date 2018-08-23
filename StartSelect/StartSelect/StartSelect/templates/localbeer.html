@@ -1,0 +1,32 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1>Start-Select {{locInfo[0]}}</h1>
+    <p class="lead">{{locInfo[1]}}</p>
+    <p><a href="http://flask.pocoo.org/" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+</div>
+<h2>Draft Beers</h2>
+<table>
+    {% for beer in draftBeers %}
+    <p>
+        <strong>Brewery: </strong>{{beer[0]}} <br />
+        <strong>Name: </strong>{{beer[1]}} <br />
+        <strong>Style: </strong>{{beer[2]}} <br />
+        <strong>Price: </strong>{{beer[3]}} <br />
+    </p>
+    {% endfor %}
+</table>
+<h2>Canned/Bottled Beers</h2>
+<table>
+    {% for beer in canBeers %}
+    <p>
+        <strong>Brewery: </strong>{{beer[0]}} <br />
+        <strong>Name: </strong>{{beer[1]}} <br />
+        <strong>Style: </strong>{{beer[2]}} <br />
+        <strong>Price: </strong>{{beer[3]}} <br />
+    </p>
+    {% endfor %}
+</table>
+{% endblock %}

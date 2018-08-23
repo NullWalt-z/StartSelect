@@ -1,0 +1,7 @@
+__all__
+sys
+TestSSCursor
+pymysql
+CLIENT
+base
+unittest

@@ -1,0 +1,35 @@
+Flask<1
+
+
+locations = [
+    #[city,address]
+    [1,'Kansas City','101 SW Boulevard, Kansas City, MO 64068'],
+    [2,'Des Moines','500 E Locust St, Des Moines, IA 50309'],
+    [3,'Minneapolis','3012 Lyndale Ave S, Minneapolis, MN 55408']
+    ]
+breweries = [
+    #[name,state]
+    [1,'Boulevard','MO'],
+    [2,'Emperial','MO'],
+    [3,'Cinder Block','MO'],
+    [4,'Exile','IA'],
+    [5,'Fox','IA'],
+    [6,'Firetrucker','IA'],
+    [7,'Pryes','MN'],
+    [8,'Surly','MN'],
+    [9,'Modist','MN']
+    ]
+beers = [
+    #[locID,name,brewerID,style,price,draft]
+    [1,1,'Pale Ale',1,'Pale Ale',5.50,True],
+    [2,1,'Biscuit',2,'English Brown Ale',5.50,True],
+    [3,1,'Block IPA',3,'IPA',6.50,False],
+    [4,2,'Beatnik Sour',4,'Berliner Weisse',7.50,True],
+    [5,2,'Fox Tail',5,'English Red',4.50,True],
+    [6,2,'Pumper Truck',6,'Porter',5.50,False],
+    [7,3,'Miraculum',7,'IPA',5.50,True],
+    [8,3,'First Avenue',8,'Golden Ale',5.50,False],
+    [9,3,'Supra',9,'Lager',4.50,True]
+    ]
+
+publishers = [[1,'Capcom'],[2,'Midway'],[3,'Atari'],[4,'Williams'],[5,'Sega']]

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1>Start Select</h1>
+    <p class="lead">Start Select is the premiere, vintage, Arcade Bar establishment</p>
+    <p><a href="/about.html" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    {% for loc in locs %}
+    <div class="col-md-4">
+        <h2>{{loc.city}}</h2>
+        <p>
+            {{loc.address}}
+        </p>
+        <p><a class="btn btn-default" href="/{{loc.uri}}">Select Location &raquo;</a></p>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
