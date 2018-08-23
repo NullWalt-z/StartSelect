@@ -1,12 +1,13 @@
-﻿<!DOCTYPE html>
+﻿{% extends "layout.html" %}
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Admin Dashboard</title>
-</head>
-<body>
-    <div class="column" id="beerColumn">
+{% block content %}
+
+<div class="jumbotron">
+    <h1>ADMIN DASHBOARD</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
         <h2>Add Beer</h2>
         <form action='/addBeer' method="post" name="addBeerForm">
             Location:<br />
@@ -15,8 +16,12 @@
             Beer name:<br />
             <input type="text" name="beerNameIn">
             <br />
-            Brewery name:<br />
-            <input type="text" name="breweryNameIn">
+            Brewery name:
+            <select id="addBeerBrewSelect" name="addBeerBrewSelect">
+                {% for brew in allBreweries %}
+                <option value={{brew[0]}} name="{{brew[1]}}">{{brew[1]}} - {{brew[2]}}</option>
+                {% endfor %}
+            </select>
             <br />
             Style:<br />
             <input type="text" name="styleIn">
@@ -43,38 +48,60 @@
         <form action="/removeBeer" method="post" name="removeBeerForm">
             <select id="removeBeerSelect" name="removeBeerSelect">
                 {% for beer in locBeers %}
-                    <option value={{beer[0]}} name ="{{beer[2]}}">{{beer[2]}} - {{beer[1]}} - {{beer[3]}}</option>
+                <option value={{beer[0]}} name="{{beer[2]}}">{{beer[2]}} - {{beer[1]}} - {{beer[3]}}</option>
                 {% endfor %}
             </select>
             <input type="submit" value="Submit" name="removeBeerSubmit" />
         </form>
     </div>
-    <div class="column" id="arcadeColumn">
+    <div class="col-md-4">
         <h2>Add Arcade</h2>
-        <form action='/addArcade' method="post" name="addArcadeForm">
+        <form action='/newArcade' method="post" name="addArcadeForm">
             Location:<br />
             <input type="text" name="locationIn">
             <br />
             Arcade:<br />
             <input type="text" name="arcadeNameIn">
             <br />
-            Publisher:<br />
-            <input type="text" name="publisherNameIn">
+            Publisher:
+            <select id="addArcadePubSelect" name="addArcadePubSelect">
+                {% for pub in allPublishers %}
+                <option value={{pub[0]}} name="{{pub[0]}}">{{pub[1]}}</option>
+                {% endfor %}
+            </select>
             <br />
-            Genre:<br />
-            <input type="text" name="genreIn">
+            Genre:
+            <select id="addArcadeGenreSelect" name="addArcadeGenreSelect">
+                {% for genre in allGenres %}
+                <option value={{genre[0]}} name="{{genre[1]}}">{{genre[1]}}</option>
+                {% endfor %}
+            </select>
             <br />
             Year:<br>
             <input type="text" name="yearIn">
             <br />
             Players:<br />
-            <input type="checkbox" name="playersIn" value=True>
+            <input type="text" name="playersIn">
             <br />
             Featured:<br />
             <input type="checkbox" name="featuredIn" value=True>
             <br /><br />
             <input type="submit" value="Submit" name="addArcadeSubmit">
         </form>
+        <br /><br />
+        <h2>Remove Arcade</h2>
+        <form action="/removeArcade" method="post" name="removeArcadeForm">
+            <select id="removeArcadeSelect" name="removeArcadeSelect">
+                {% for arcade in locArcades %}
+                <option value={{arcade[0]}} name="{{arcade[1]}}">{{arcade[1]}} - {{arcade[2]}} - {{arcade[3]}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Submit" name="removeArcadeSubmit" />
+        </form>
     </div>
-</body>
-</html>
+    <div class="col-md-4">
+        SPECIAL DASHBOARD HOLDER
+    </div>
+</div>
+
+{% endblock %}

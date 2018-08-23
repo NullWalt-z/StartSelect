@@ -116,22 +116,31 @@ def locations():
 
 @app.route('/admin', methods=['GET','POST'])
 def admin():
-    breweries = getBreweriesByLocation(1)
+    #breweries = getBreweriesByLocation(1)
     beers = getRemoveBeers(1)
+    arcades = getRemoveArcades(1)
+    publishers = getPublishers()
+    breweries = getBreweries()
+    genres = getGenres()
+    
     """Renders the location page"""
     return render_template(
         'admin.html',
         title='Admin - Login',
         year=datetime.now().year,
         message='Admin Login',
-        locBeers = beers
+        locBeers = beers,
+        locArcades = arcades,
+        allPublishers = publishers,
+        allBreweries = breweries,
+        allGenres = genres
         )
 
 @app.route('/addBeer', methods=['POST'])
 def newBeer():
     locIN = request.form['locationIn']
     nameIN = request.form['beerNameIn']
-    breweryIN = request.form['breweryNameIn']
+    breweryIN = request.form['addBeerBrewSelect']
     styleIN = request.form['styleIn']
     priceIN = request.form['priceIn']
     draftIN = request.form.get('draftIn', False)
@@ -165,20 +174,34 @@ def subBeer():
 def newArcade():
     locIN = request.form['locationIn']
     arcadeIN = request.form['arcadeNameIn']
-    publisherIN = request.form['publisherNameIn']
-    genreIN = request.form['genreIn']
+    publisherIN = request.form['addArcadePubSelect']
+    genreIN = request.form['addArcadeGenreSelect']
     yearIN = request.form['yearIn']
     playersIN = request.form['playersIn']
     featuredIN = request.form.get('featuredIn')
     addArcade(locIN,arcadeIN,publisherIN,genreIN,yearIN,playersIN,featuredIN)
     newArcade = [locIN,arcadeIN,publisherIN,genreIN,yearIN,playersIN,featuredIN]
-    return render_templayer(
+    return render_template(
         'newArcade.html',
         title = 'Confirm New Arcade',
         year=datetime.now().year,
         message='Confirm New Arcade',
         thisArcade = newArcade
         )
+
+@app.route('/removeArcade', methods=['POST'])
+def subArcade():
+    arcadeID = request.form['removeArcadeSelect']
+    oldArcade = arcade.query.filter(arcade.id == arcadeID).add_columns(arcade.name)
+    oldArcade = oldArcade[0][1]
+    removeArcade(1,arcadeID)
+    return render_template(
+        'removeArcade.html',
+        title = 'Confirm Game Removal',
+        year=datetime.now().year,
+        thisArcade = oldArcade
+        )
+
 
 
 ########################

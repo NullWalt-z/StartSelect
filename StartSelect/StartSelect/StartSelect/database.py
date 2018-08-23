@@ -222,6 +222,7 @@ def getArcades(locID):
     locArcades = arcade.query.filter(arcade.locationid == locID).join(publisher).join(genre).add_columns(
         arcade.name, publisher.name, genre.title, arcade.year, arcade.playercount).order_by(genre.title)
     for arcades in locArcades:
+        #processQuery HERE
         newArcade = []
         newArcade.append(arcades[1])
         newArcade.append(arcades[2])
@@ -230,6 +231,23 @@ def getArcades(locID):
         newArcade.append(arcades[5])
         cabinets.append(newArcade)
     return cabinets
+
+def getRemoveArcades(locID):
+    cabinets = []
+    locArcades = arcade.query.filter(arcade.locationid == locID).add_columns(arcade.id,arcade.name,arcade.genreid,arcade.year)
+    for arcades in locArcades:
+        #processQUERY HERE
+        newArcade = []
+        newArcade.append(arcades[1])
+        newArcade.append(arcades[2])
+        newArcade.append(arcades[3])
+        cabinets.append(newArcade)
+    return cabinets
+
+def getBreweries():
+    breweries = brewery.query.add_columns(brewery.id,brewery.name,brewery.state)
+    breweries = processQuery(breweries)
+    return breweries
 
 def getBreweriesByLocation(locID):
     locBreweries = beer.query.filter(beer.locationid==locID).add_column(beer.breweryid)
@@ -246,10 +264,16 @@ def getBreweriesByLocation(locID):
     return breweries
 
 
+def getGenres():
+    allGenres = genre.query.add_columns(genre.id, genre.title)
+    allGenres = processQuery(allGenres)
+    return allGenres
+
 def getSpecials(locID):
     locSpecials = special.query.filter(special.locationid == locID).add_columns(special.day, special.desc).order_by(special.dayNum)
     #Need to write sort function (comparison and equality have been overridden already)
     dailySpecial = []
+    #processQUERY HERE
     for specials in locSpecials:
         newSpecial = []
         newSpecial.append(specials[1])
@@ -258,7 +282,16 @@ def getSpecials(locID):
     #FIGURE OUT HOW TO SORT!!!!!!!!!!!!!
     return dailySpecial
 
-    return specials
+def getPublishers():
+    publishers = publisher.query.add_columns(publisher.id, publisher.name)
+    allPublishers = []
+    #processQUERY HERE
+    for pub in publishers:
+        newPub = []
+        newPub.append(pub[1])
+        newPub.append(pub[2])
+        allPublishers.append(newPub)
+    return allPublishers;
 
 def searchBeers(searchString):
     #return a list of beers meeting query
@@ -274,14 +307,13 @@ def searchArcades(searchString):
 ### Insert / Remove Functions ###
 #################################
 
-def addBeer(locID,beerName,breweryName,beerType,beerPrice,isDraft,beerABV,beerIBU,isFeatured):
-    print('LOCID = ' + locID)
-    newID = brewery.query.filter(brewery.name == breweryName).add_column(brewery.id)
-    newID=newID[0][1]
-    if not(newID):
-        print('Error - Please Add Brewery')
-        return False
-    newBeer = beer(locID,beerName,newID,beerType,beerPrice,isDraft,beerABV,beerIBU,isFeatured)
+def addBeer(locID,beerName,breweryID,beerType,beerPrice,isDraft,beerABV,beerIBU,isFeatured):
+    #newID = brewery.query.filter(brewery.id == breweryID).add_column(brewery.id)
+    #newID=newID[0][1]
+    #if not(newID):
+    #    print('Error - Please Add Brewery')
+    #    return False
+    newBeer = beer(locID,beerName,breweryID,beerType,beerPrice,isDraft,beerABV,beerIBU,isFeatured)
     db.session.add(newBeer)
     db.session.commit()
     return True
@@ -312,8 +344,8 @@ def addArcade(locID,gameName,gamePublisher,gameGenre,gameYear,numPlayers,feature
     db.session.commit()
     return True
 
-def removeArcade(locID,gameName):
-    db.session.query(arcade).filter(arcade.locationid == locID,arcade.name==gameName)
+def removeArcade(locID,gameID):
+    db.session.query(arcade).filter(arcade.locationid == locID,arcade.id==gameID).delete()
     db.session.commit()
     return True
 
@@ -463,3 +495,13 @@ def insertTestData(newLocs,newBreweries,newBeers,newPubs,newGenres,newArcades,ne
     except:
         print('Error in specials')
         return False
+
+def processQuery(queryIn):
+    newQuery = []
+    for query in queryIn:
+        newItem = []
+        for i in range(len(query)):
+            if (i!=0):
+                newItem.append(query[i])
+        newQuery.append(newItem)
+    return newQuery
