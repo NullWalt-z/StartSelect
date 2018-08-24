@@ -1,0 +1,51 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1>ADMIN DASHBOARD</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Add Beer</h2>
+        <form action='/newBeer' method="post" name="addBeerForm">
+            <div>
+                {{ newBeerForm.beerName.label }}: 
+                {{ newBeerForm.beerName }}
+            </div>
+            <div>
+                {{ newBeerForm.breweryName.label }}: 
+                {{ newBeerForm.breweryName }}
+            </div>
+            <div>
+                {{ newBeerForm.style.label }}: 
+                {{ newBeerForm.style }}
+            </div>
+            <div>
+                {{ newBeerForm.price.label }}: 
+                {{ newBeerForm.price }}
+            </div>
+            <div>
+                {{ newBeerForm.draft.label }}:
+                {{ newBeerForm.draft }}
+            </div>
+            <div>
+                {{ newBeerForm.abv.label }}: 
+                {{ newBeerForm.abv }}
+            </div>
+            <div>
+                {{ newBeerForm.ibu.label }}: 
+                {{ newBeerForm.ibu }}
+            </div>
+            <div>
+                {{ newBeerForm.featured.label }}: 
+                {{ newBeerForm.featured }}
+            </div>
+    </form>
+    <br /><br />
+    <h2>Remove Beer</h2>
+ 
+</div>
+
+{% endblock %}

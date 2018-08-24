@@ -144,6 +144,20 @@ def admin():
         week = days,
         locSpecials = specials
         )
+@app.route('/dashboard', methods=['POST','GET'])
+def  dashboard():
+    return render_template(
+        'dashboard.html',
+        title='Administer Dashboard',
+        year=datetime.now().year,
+        message='Add/Remove Panel',
+        newBeerForm = addBeerForm(),
+        beerOutForm = removeBeerForm(),
+        arcadeInForm = addArcadeForm(),
+        arcadeOutForm = removeArcadeForm(),
+        specialInForm = addSpecialForm(),
+        specialOutForm = removeSpecialForm()
+        )
 
 @app.route('/newBeer', methods=['POST'])
 def newBeer():
@@ -275,7 +289,8 @@ class addBeerForm(Form):
     abv = DecimalField('ABV', [validators.DataRequired()], places=1)
     ibu = IntegerField('IBU')
     featured = BooleanField('Featured')
-class removeBeerForm(Form, locID):
+class removeBeerForm(Form):
+    locID = 0
     beers = getRemoveBeers(locID)
     beerName = SelectField('Select Beer',[validators.DataRequired()])
     beerName.choices = [(b[0],b[1]) for b in beers]
@@ -286,7 +301,8 @@ class addArcadeForm(Form):
     year = IntegerField('Year')
     players = IntegerField('Players')
     featured = BooleanField('Featured')
-class removeArcadeForm(Form, locID):
+class removeArcadeForm(Form):
+    locID = 0
     arcades = getRemoveArcades(locID)
     gameName = SelectField('Select Arcade',[validators.DataRequired()])
     gameName.choices = [(game[0],game[1]) for game in arcades]
@@ -295,5 +311,5 @@ class addSpecialForm(Form):
         ('Mon',1),('Tue',2),('Wed',3),('Thur',4),('Fri',5),('Sat',6),('Sun',7)
         ])
     desc = TextAreaField('Description')
-class removeSpecialForm(Form,locID):
+class removeSpecialForm(Form):
     True
