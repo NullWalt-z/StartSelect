@@ -13,6 +13,32 @@ db = SQLAlchemy(app)
 ############################################
 ### Database LeftRight Table Definitions ###
 ############################################
+class user(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer,primary_key=True,autoincrement=True)
+    firstname = db.Column(db.String(80))
+    lastname = db.Column(db.String(80))
+    userid = db.Column(db.String(80))
+    #password
+    privilege = db.Column(db.Integer)
+    #########################################
+    ### privilege table (move to readme)  ###
+    ### 0 - admin                         ###
+    ### 1 - manager                       ###
+    ### 2 - gametech                      ###
+    #########################################
+    locationid = db.Column(db.Integer) #0=global admin
+
+    #function relationships
+    def __repr__(self):
+        return "[%r]" %(self.userid)
+    def __init__(self,firstname,lastname,userid,privilege,locationid):
+        self.firstname = firstname
+        self.lastname = lastname
+        self.userid = userid
+        self.privilege = privilege
+        self.locationid = locationid
+
 class location(db.Model):
     __tablename__ = 'location'
     id = db.Column(db.Integer,primary_key=True,autoincrement=True)
