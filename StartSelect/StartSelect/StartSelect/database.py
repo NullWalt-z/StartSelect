@@ -19,7 +19,7 @@ class user(db.Model):
     firstname = db.Column(db.String(80))
     lastname = db.Column(db.String(80))
     userid = db.Column(db.String(80))
-    #password
+    password = db.Column(db.String(250))
     privilege = db.Column(db.Integer)
     #########################################
     ### privilege table (move to readme)  ###

@@ -6,6 +6,8 @@ from datetime import datetime
 from flask import render_template
 from StartSelect.database import *
 from StartSelect import app
+from wtforms import Form, StringField, TextAreaField, IntegerField, SelectField, PasswordField, BooleanField, DecimalField,validators
+from passlib.hash import sha256_crypt
 
 @app.route('/')
 @app.route('/home', methods=['GET'])
@@ -113,6 +115,9 @@ def locations():
         year=datetime.now().year,
         message='Choose your location.'
         )
+
+### ADMIN BLOCK ###
+
 
 @app.route('/admin', methods=['GET','POST'])
 def admin():
@@ -236,7 +241,6 @@ def subSpecial():
 ########################
 ### HELPER FUNCTIONS ###
 ########################
-
 def numToDay(numIN):
     if(numIN == 1):
         return 'Mon'
@@ -255,3 +259,41 @@ def numToDay(numIN):
     else:
         return 'Everyday'
 
+####################
+### FORM CLASSES ###
+####################
+class loginForm(Form):
+    True
+class addBeerForm(Form):
+    breweryChoices = getBreweries()
+    beerName = StringField('Beer Name', [validators.Length(min=1, max=50),validators.DataRequired()])
+    breweryName = SelectField('Select a Brewery', [validators.DataRequired()])
+    breweryName.choices = [(brew[0],brew[1]) for brew in breweryChoices]
+    style = StringField('Style', [validators.Length(min=1,max=50),validators.DataRequired()])
+    price = DecimalField('Price', [validators.DataRequired()], places=2)
+    draft = BooleanField('Draft')
+    abv = DecimalField('ABV', [validators.DataRequired()], places=1)
+    ibu = IntegerField('IBU')
+    featured = BooleanField('Featured')
+class removeBeerForm(Form, locID):
+    beers = getRemoveBeers(locID)
+    beerName = SelectField('Select Beer',[validators.DataRequired()])
+    beerName.choices = [(b[0],b[1]) for b in beers]
+class addArcadeForm(Form):
+    arcadeName = StringField('Arcade Name', [validators.Length(min=4,max=50), validators.DataRequired()])
+    publisher = SelectField('Select a Publisher',[validators.DataRequired()])
+    igenre = SelectField('Select a Genre',[validators.DataRequired()])
+    year = IntegerField('Year')
+    players = IntegerField('Players')
+    featured = BooleanField('Featured')
+class removeArcadeForm(Form, locID):
+    arcades = getRemoveArcades(locID)
+    gameName = SelectField('Select Arcade',[validators.DataRequired()])
+    gameName.choices = [(game[0],game[1]) for game in arcades]
+class addSpecialForm(Form):
+    day = SelectField('Day',[validators.DataRequired()], choices=[
+        ('Mon',1),('Tue',2),('Wed',3),('Thur',4),('Fri',5),('Sat',6),('Sun',7)
+        ])
+    desc = TextAreaField('Description')
+class removeSpecialForm(Form,locID):
+    True
