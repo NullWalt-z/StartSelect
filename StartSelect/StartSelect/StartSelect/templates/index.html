@@ -5,12 +5,12 @@
 <div class="jumbotron">
     <h1>Start Select</h1>
     <p class="lead">Start Select is the premiere, vintage, Arcade Bar establishment</p>
-    <p><a href="/about.html" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+    <div class="jumbo-button"><a href="/about.html" class="btn btn-primary btn-large">Learn more &raquo;</a></div>
 </div>
 
-<div class="row">
+<div class="row row-index">
     {% for loc in locs %}
-    <div class="col-md-4">
+    <div class="col-md-4 locations-col" div style="background-image: url('/static/content/images/{{loc.uri}}-grey.jpg')">
         <h2>{{loc.city}}</h2>
         <p>
             {{loc.address}}

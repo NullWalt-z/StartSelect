@@ -9,11 +9,11 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 loc-index-beer-col">
         <h2><a href="/{{locInfo[2]}}/beer">Beer Menu</a></h2>
         <h4>Draft Beers</h4>
         {% for beer in draftBeers %}
-        <div class="beers">
+        <div class="beer-entry">
             <p>
                 <strong>Brewery:</strong> {{beer[1]}} <br />
                 <strong>Name:</strong> {{beer[0]}} <br />
@@ -24,7 +24,7 @@
         {% endfor %}
         <h4>Canned/Bottled Beers</h4>
         {% for beer in canBeers %}
-        <div class="beers">
+        <div class="beer-entry">
             <p>
                 <strong>Brewery:</strong> {{beer[1]}} <br />
                 <strong>Name:</strong> {{beer[0]}} <br />
@@ -35,26 +35,30 @@
         {% endfor  %}
         <p><a class="btn btn-default" href="http://flask.pocoo.org/docs/">Learn more &raquo;</a></p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 loc-index-arcade-col">
         <h2><a href="/{{locInfo[2]}}/games">Arcade List</a></h2>
         {% for arcade in arcades %}
-        <p>
-            <strong>Title:</strong> {{arcade[0]}} <br />
-            <strong>Publisher:</strong> {{arcade[1]}} <br />
-            <strong>Genre:</strong> {{arcade[2]}} <br />
-            <strong>Release Year:</strong> {{arcade[3]}} <br />
-            <strong>Players: </strong>{{arcade[4]}} <br />
-        </p>
+        <div class="arcade-entry">
+            <p>
+                <strong>Title:</strong> {{arcade[0]}} <br />
+                <strong>Publisher:</strong> {{arcade[1]}} <br />
+                <strong>Genre:</strong> {{arcade[2]}} <br />
+                <strong>Release Year:</strong> {{arcade[3]}} <br />
+                <strong>Players: </strong>{{arcade[4]}} <br />
+            </p>
+        </div>
         {% endfor %}
         <p><a class="btn btn-default" href="https://pypi.python.org/pypi">Learn more &raquo;</a></p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 loc-index-special-col">
         <h2><a href="/{{locInfo[2]}}/">Specials List</a></h2>
         {% for special in specials%}
-        <p>
-            <strong>Day:</strong> {{special[0]}} <br />
-            <strong>Special:</strong> {{special[1]}} <br />
-        </p>
+        <div class="special-entry"
+            <p>
+                <strong>Day:</strong> {{special[0]}} <br />
+                <strong>Special:</strong> {{special[1]}} <br />
+            </p>
+        </div>
         {% endfor %}
         <p><a class="btn btn-default" href="http://azure.microsoft.com">Learn more &raquo;</a></p>
     </div>

@@ -40,3 +40,55 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+.jumbotron {
+    text-align: center;
+    color: #b3ffff;
+    text-shadow: 1px 1px #000000;
+    background-image: url("images/upDownBanner.jpg");
+    background-size: 100%;
+}
+
+.row-index {
+    height: 157px;
+    background-color: #808080;
+}
+
+.btn-primary {
+    color: #000000;
+    background-color: #b3ffff;
+    border-color: #000000;
+    text-shadow: none;
+}
+
+.locations-col {
+    color: #b3ffff;
+    text-shadow: 1px 1px #000000;
+    width: 32%; 
+    margin: 10px 7.5px 10px 7.5px;
+}
+.btn-default {
+    text-shadow:none;
+}
+.loc-index-beer-col{
+    background-color: #bba4a4;
+}
+.loc-index-arcade-col {
+    background-color: #5c5c5c;
+}
+.loc-index-special-col{
+    background-color: #bba4a4;
+}
+.beer-entry {
+    background-color: #5c5c5c
+}
+.arcade-entry {
+    background-color: #bba4a4;
+}
+.special-entry {
+    background-color: #5c5c5c;
+}
+
+.jumbo-admin {
+    margin-bottom: 0px;
+}

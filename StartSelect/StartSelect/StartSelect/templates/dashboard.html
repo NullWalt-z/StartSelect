@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="jumbotron">
+<div class="jumbotron jumbo-admin">
     <h1>ADMIN DASHBOARD</h1>
 </div>
 
@@ -11,41 +11,107 @@
         <h2>Add Beer</h2>
         <form action='/newBeer' method="post" name="addBeerForm">
             <div>
-                {{ newBeerForm.beerName.label }}: 
-                {{ newBeerForm.beerName }}
+                {{ beerInForm.beerName.label }}:
+                {{ beerInForm.beerName }}
             </div>
             <div>
-                {{ newBeerForm.breweryName.label }}: 
-                {{ newBeerForm.breweryName }}
+                {{ beerInForm.breweryName.label }}:
+                {{ beerInForm.breweryName }} ADD NEW!
             </div>
             <div>
-                {{ newBeerForm.style.label }}: 
-                {{ newBeerForm.style }}
+                {{ beerInForm.style.label }}:
+                {{ beerInForm.style }}
             </div>
             <div>
-                {{ newBeerForm.price.label }}: 
-                {{ newBeerForm.price }}
+                {{ beerInForm.price.label }}:
+                {{ beerInForm.price }}
             </div>
             <div>
-                {{ newBeerForm.draft.label }}:
-                {{ newBeerForm.draft }}
+                {{ beerInForm.abv.label }}:
+                {{ beerInForm.abv }}
             </div>
             <div>
-                {{ newBeerForm.abv.label }}: 
-                {{ newBeerForm.abv }}
+                {{ beerInForm.ibu.label }}:
+                {{ beerInForm.ibu }}
             </div>
             <div>
-                {{ newBeerForm.ibu.label }}: 
-                {{ newBeerForm.ibu }}
+                {{ beerInForm.featured.label }}:
+                {{ beerInForm.featured }}
+                {{ beerInForm.draft.label }}:
+                {{ beerInForm.draft }}
             </div>
             <div>
-                {{ newBeerForm.featured.label }}: 
-                {{ newBeerForm.featured }}
+                <input type="submit" value="Add Beer" name="addBeerSubmit">
             </div>
-    </form>
-    <br /><br />
-    <h2>Remove Beer</h2>
- 
+        </form>
+        <h2>Remove Beer</h2>
+            <form action="/removeBeer" method="post" name="removeBeerForm">
+            <div>
+                {{ beerOutForm.beerName.label }}:
+                {{ beerOutForm.beerName }}
+            </div>
+            <input type="submit" value="Remove Beer" name="removeBeerSubmit" />
+        </form>
+    </div>
+    <div class="col-md-4">
+        <h2>Add Arcade</h2>
+        <form action='/newArcade' method="post" name="addArcadeForm">
+            <div>
+                {{ gameInForm.arcadeName.label }}:
+                {{ gameInForm.arcadeName }}
+            </div>
+            <div>
+                {{ gameInForm.publisher.label }}:
+                {{ gameInForm.publisher }} ADD NEW!
+            </div>
+            <div>
+                {{ gameInForm.genre.label }}:
+                {{ gameInForm.genre }}
+            </div>
+            <div>
+                {{ gameInForm.year.label }}:
+                {{ gameInForm.year }}
+            </div>
+            <div>
+                {{ gameInForm.players.label }}:
+                {{ gameInForm.players }}
+            </div>
+            <div>
+                {{ gameInForm.featured.label }}:
+                {{ gameInForm.featured }}
+            </div>
+            <input type="submit" value="Add Game" name="addArcadeSubmit">
+        </form>
+        <h2>Remove Arcade</h2>
+        <form action="/removeArcade" method="post" name="removeArcadeForm">
+            <div>
+                {{ gameOutForm.gameName.label }}:
+                {{ gameOutForm.gameName }}
+            </div>
+            <input type="submit" value="Remove Arcade" name="removeArcadeSubmit" />
+        </form>
+    </div>
+    <div class="col-md-4">
+        <h2>Add Special</h2>
+        <form action='/newSpecial' method="post" name="addSpecialForm">
+            <div>
+                {{ specialInForm.day.label }}:
+                {{ specialInForm.day }}
+            </div>
+            <div>
+                {{ specialInForm.desc.label }}:
+                {{ specialInForm.desc }}
+            </div>
+            <input type="submit" value="Add Special" name="addSpecialSubmit">
+        </form>
+        <h2>Remove Arcade</h2>
+        <form action="/removeSpecial" method="post" name="removeSpecialForm">
+            <div>
+                {{ specialOutForm.specialD.label }}:
+                {{ specialOutForm.specialD }}
+            </div>
+            <input type="submit" value="Remove Special" name="removeSpecialSubmit" />
+        </form>
+    </div>
 </div>
-
 {% endblock %}

@@ -291,17 +291,19 @@ def getSpecials(locID):
     return dailySpecial
 
 def getRemoveSpecials(locID):
-    locSpecials = special.query.filter(special.locationid == locID).add_columns(special.id,special.day, special.desc).order_by(special.dayNum)
-    locSpecials = processQuery(locSpecials)
-    for specials in locSpecials:
-        if(len(specials[2]) > 50):
-            specials[2]=specials[2][:50]
-            specials[2].append('...')
-    return locSpecials
-    
-
- 
-
+    specQuery = special.query.filter(special.locationid == locID).add_columns(special.id,special.day, special.desc).order_by(special.dayNum)
+    specQuery = processQuery(specQuery)
+    Specials = []
+    for specials in specQuery:
+        temp = []
+        temp.append(specials[0])
+        temp.append(specials[1] + "-")
+        if (len(specials[2]) > 50):
+            specials[2] = specials[2][:47] + "..."  
+        temp[1] = temp[1] + specials[2]
+        Specials.append(temp)
+    return Specials
+   
 def getPublishers():
     publishers = publisher.query.add_columns(publisher.id, publisher.name)
     allPublishers = []

@@ -3,11 +3,18 @@ Routes and views for the flask application.
 """
 
 from datetime import datetime
-from flask import render_template
+from flask import render_template, redirect, url_for
 from StartSelect.database import *
+from StartSelect.forms import *
+from StartSelect.Breadcrumbs import *
 from StartSelect import app
-from wtforms import Form, StringField, TextAreaField, IntegerField, SelectField, PasswordField, BooleanField, DecimalField,validators
+from flask_wtf import FlaskForm
+from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
+from wtforms import StringField, TextAreaField, IntegerField, SelectField, PasswordField, BooleanField, DecimalField,validators
 from passlib.hash import sha256_crypt
+
+app.config['SECRET_KEY'] = 'SuperSecretKey'
+Breadcrumbs(app=app)
 
 @app.route('/')
 @app.route('/home', methods=['GET'])
@@ -146,110 +153,90 @@ def admin():
         )
 @app.route('/dashboard', methods=['POST','GET'])
 def  dashboard():
+    bInForm = addBeerForm()
+    bInForm.breweryName.choices = [(brew[0],brew[1]) for brew in getBreweries()]
+    bOutForm = removeBeerForm()
+    bOutForm.beerName.choices = [(b[0],b[1]) for b in getRemoveBeers(1)]
+    aInForm = addArcadeForm()
+    aInForm.publisher.choices = [(pub[0],pub[1]) for pub in getPublishers()]
+    aInForm.genre.choices = [(gen[0],gen[1]) for gen in getGenres()]
+    aOutForm = removeArcadeForm()
+    aOutForm.gameName.choices = [(game[0],game[1]) for game in getRemoveArcades(1)]
+    sInForm = addSpecialForm()
+    sInForm.day.choices = [('Mon','Mon'),('Tue','Tue'),('Wed','Wed'),('Thur','Thur'),('Fri','Fri'),('Sat','Sat'),('Sun','Sun')]
+    sOutForm = removeSpecialForm()
+    sOutForm.specialD.choices = [(spec[0],spec[1]) for spec in getRemoveSpecials(1)]
+    """Renders the admin dashboard"""
     return render_template(
         'dashboard.html',
         title='Administer Dashboard',
         year=datetime.now().year,
         message='Add/Remove Panel',
-        newBeerForm = addBeerForm(),
-        beerOutForm = removeBeerForm(),
-        arcadeInForm = addArcadeForm(),
-        arcadeOutForm = removeArcadeForm(),
-        specialInForm = addSpecialForm(),
-        specialOutForm = removeSpecialForm()
+        beerInForm = bInForm,
+        beerOutForm = bOutForm,
+        gameInForm = aInForm,
+        gameOutForm = aOutForm,
+        specialInForm = sInForm,
+        specialOutForm = sOutForm
         )
-
 @app.route('/newBeer', methods=['POST'])
 def newBeer():
-    locIN = request.form['locationIn']
-    nameIN = request.form['beerNameIn']
-    breweryIN = request.form['addBeerBrewSelect']
-    styleIN = request.form['styleIn']
-    priceIN = request.form['priceIn']
-    draftIN = request.form.get('draftIn', False)
-    abvIN = request.form['abvIn']
-    ibuIN = request.form['ibuIn']
-    featuredIN = request.form.get('featuredIn', False)
+    form = addBeerForm()
+    locIN = 1
+    nameIN = form.beerName.data
+    breweryIN = form.breweryName.data
+    styleIN = form.style.data
+    priceIN = form.price.data
+    draftIN = form.draft.data
+    abvIN = form.abv.data
+    ibuIN = form.ibu.data
+    featuredIN = form.featured.data
     addBeer(locIN,nameIN,breweryIN,styleIN,priceIN,draftIN,abvIN,ibuIN,featuredIN)
-    """adds beer to DB then returns to admin page"""
-    return render_template(
-        'newBeer.html',
-        title='Confirm New Beer',
-        year=datetime.now().year,
-        message='Confirm New Beer',
-        thisBeer = [locIN,nameIN,breweryIN,styleIN,priceIN,draftIN,abvIN,ibuIN,featuredIN]
-        )
+    return redirect(url_for('dashboard'))
+
 @app.route('/removeBeer', methods=['POST'])
 def subBeer():
-    beerID = request.form['removeBeerSelect']
-    oldBeer = beer.query.filter(beer.id == beerID).add_column(beer.name)
-    oldBeer = oldBeer[0][1]##MAYBE!?!?!?!?!
+    form = removeBeerForm()
+    beerID = form.beerName.data
     removeBeer(1,beerID)
-    return render_template(
-        'removeBeer.html',
-        title='Admin - Login',
-        year=datetime.now().year,
-        message='Admin Login',
-        thisBeer = oldBeer
-        )
+    return redirect(url_for('dashboard'))
 
 @app.route('/newArcade', methods=['POST'])
 def newArcade():
-    locIN = request.form['locationIn']
-    arcadeIN = request.form['arcadeNameIn']
-    publisherIN = request.form['addArcadePubSelect']
-    genreIN = request.form['addArcadeGenreSelect']
-    yearIN = request.form['yearIn']
-    playersIN = request.form['playersIn']
-    featuredIN = request.form.get('featuredIn')
+    form = addArcadeForm()
+    locIN = 1
+    arcadeIN = form.arcadeName.data
+    publisherIN = form.publisher.data
+    genreIN = form.genre.data
+    yearIN = form.year.data
+    playersIN = form.players.data
+    featuredIN = form.featured.data
     addArcade(locIN,arcadeIN,publisherIN,genreIN,yearIN,playersIN,featuredIN)
     newArcade = [locIN,arcadeIN,publisherIN,genreIN,yearIN,playersIN,featuredIN]
-    return render_template(
-        'newArcade.html',
-        title = 'Confirm New Arcade',
-        year=datetime.now().year,
-        message='Confirm New Arcade',
-        thisArcade = newArcade
-        )
-
+    return redirect(url_for('dashboard'))
 @app.route('/removeArcade', methods=['POST'])
 def subArcade():
-    arcadeID = request.form['removeArcadeSelect']
+    form = removeArcadeForm()
+    arcadeID = form.gameName.data
     oldArcade = arcade.query.filter(arcade.id == arcadeID).add_columns(arcade.name)
     oldArcade = oldArcade[0][1]
     removeArcade(1,arcadeID)
-    return render_template(
-        'removeArcade.html',
-        title = 'Confirm Game Removal',
-        year=datetime.now().year,
-        thisArcade = oldArcade
-        )
+    return redirect(url_for('dashboard'))
 @app.route('/newSpecial', methods=['POST'])
 def newSpecial():
-    locIN = request.form['locationIn']
-    dayIN = request.form['addSpecialDaySelect']
-    descIN = request.form['descIn']
-    addSpecial(locIN,dayIN,descIN)
+    form = addSpecialForm()
+    dayIN = form.day.data
+    descIN = form.desc.data
+    addSpecial(1,dayIN,descIN)
     newSpecial = [dayIN,descIN]
-    return render_template(
-        'newSpecial.html',
-        title = 'Confirm New Special',
-        year=datetime.now().year,
-        thisSpecial = newSpecial
-        )
+    return redirect(url_for('dashboard'))
 
 @app.route('/removeSpecial', methods=['POST'])
 def subSpecial():
-    specialID = request.form['removeSpecialSelect']
-    oldSpecial = special.query.filter(special.id == specialID).add_columns(special.day,special.dayNum).order_by(special.dayNum)
-    oldSpecial = oldSpecial[0][1]
+    form = removeSpecialForm()
+    specialID = form.specialD.data
     removeSpecial(1,specialID)
-    return render_template(
-        'removeSpecial.html',
-        title = 'Confirm Special Removal',
-        year = datetime.now().year,
-        thisSpecial = oldSpecial
-        )
+    return redirect(url_for('dashboard'))
 
 
 ########################
@@ -272,44 +259,3 @@ def numToDay(numIN):
         return 'Sun'
     else:
         return 'Everyday'
-
-####################
-### FORM CLASSES ###
-####################
-class loginForm(Form):
-    True
-class addBeerForm(Form):
-    breweryChoices = getBreweries()
-    beerName = StringField('Beer Name', [validators.Length(min=1, max=50),validators.DataRequired()])
-    breweryName = SelectField('Select a Brewery', [validators.DataRequired()])
-    breweryName.choices = [(brew[0],brew[1]) for brew in breweryChoices]
-    style = StringField('Style', [validators.Length(min=1,max=50),validators.DataRequired()])
-    price = DecimalField('Price', [validators.DataRequired()], places=2)
-    draft = BooleanField('Draft')
-    abv = DecimalField('ABV', [validators.DataRequired()], places=1)
-    ibu = IntegerField('IBU')
-    featured = BooleanField('Featured')
-class removeBeerForm(Form):
-    locID = 0
-    beers = getRemoveBeers(locID)
-    beerName = SelectField('Select Beer',[validators.DataRequired()])
-    beerName.choices = [(b[0],b[1]) for b in beers]
-class addArcadeForm(Form):
-    arcadeName = StringField('Arcade Name', [validators.Length(min=4,max=50), validators.DataRequired()])
-    publisher = SelectField('Select a Publisher',[validators.DataRequired()])
-    igenre = SelectField('Select a Genre',[validators.DataRequired()])
-    year = IntegerField('Year')
-    players = IntegerField('Players')
-    featured = BooleanField('Featured')
-class removeArcadeForm(Form):
-    locID = 0
-    arcades = getRemoveArcades(locID)
-    gameName = SelectField('Select Arcade',[validators.DataRequired()])
-    gameName.choices = [(game[0],game[1]) for game in arcades]
-class addSpecialForm(Form):
-    day = SelectField('Day',[validators.DataRequired()], choices=[
-        ('Mon',1),('Tue',2),('Wed',3),('Thur',4),('Fri',5),('Sat',6),('Sun',7)
-        ])
-    desc = TextAreaField('Description')
-class removeSpecialForm(Form):
-    True

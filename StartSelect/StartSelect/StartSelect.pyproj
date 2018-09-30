@@ -35,6 +35,9 @@
     <Compile Include="StartSelect\models.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="StartSelect\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="StartSelect\templates\localindex.html">
       <SubType>Code</SubType>
     </Compile>
@@ -47,7 +50,7 @@
     <Folder Include="StartSelect\static\" />
     <Folder Include="StartSelect\static\content\" />
     <Folder Include="StartSelect\static\fonts\" />
-    <Folder Include="StartSelect\static\images\" />
+    <Folder Include="StartSelect\static\content\images\" />
     <Folder Include="StartSelect\static\scripts\" />
     <Folder Include="StartSelect\templates\" />
   </ItemGroup>
@@ -55,11 +58,15 @@
     <Content Include="requirements.txt" />
     <Content Include="StartSelect\static\content\bootstrap.css" />
     <Content Include="StartSelect\static\content\bootstrap.min.css" />
+    <Content Include="StartSelect\static\content\images\Des-Moines.jpg" />
+    <Content Include="StartSelect\static\content\images\kansas-city.jpg" />
+    <Content Include="StartSelect\static\content\images\Minneapolis.jpg" />
     <Content Include="StartSelect\static\content\site.css" />
     <Content Include="StartSelect\static\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="StartSelect\static\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="StartSelect\static\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="StartSelect\static\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="StartSelect\static\content\images\upDownBanner.jpg" />
     <Content Include="StartSelect\static\scripts\bootstrap.js" />
     <Content Include="StartSelect\static\scripts\bootstrap.min.js" />
     <Content Include="StartSelect\static\scripts\jquery-1.10.2.intellisense.js" />
